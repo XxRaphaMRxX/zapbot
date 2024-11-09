@@ -1,8 +1,9 @@
-import { generateWAMessageFromContent, getContentType } from '@whiskeysockets/baileys'
+import { generateWAMessageFromContent, getContentType, downloadMediaMessage } from '@whiskeysockets/baileys'
 import pino from 'pino'
 import { GrupoControle } from '../controles/GrupoControle.js'
 import { UsuarioControle } from '../controles/UsuarioControle.js'
-
+import fs from 'fs'
+import path from 'path'
 
 export async function converterMensagem(m, botInfo) {
     return new Promise(async (resolve, reject) => {
@@ -55,8 +56,19 @@ export async function converterMensagem(m, botInfo) {
                     tamanho_arquivo: m.message[tipo]?.fileLength,
                 }
 
-                // Exibe as informações da mídia no terminal
-                console.log('Informações da mídia:', respostaInformacoes.midia);
+                // Decodifica a mídia e salva localmente, depois exibe as informações no terminal
+                try {
+                    const mediaBuffer = await downloadMediaMessage(m, 'buffer')
+                    const filePath = path.join('downloads', `${respostaInformacoes.id_mensagem}.${m.message[tipo].mimetype.split('/')[1]}`)
+                    fs.writeFileSync(filePath, mediaBuffer)
+
+                    console.log('Informações da mídia (decodificada):', {
+                        ...respostaInformacoes.midia,
+                        caminho: filePath,
+                    })
+                } catch (error) {
+                    console.error('Erro ao decodificar a mídia:', error)
+                }
             }
 
             // Se for mensagem de grupo
