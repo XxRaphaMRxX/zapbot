@@ -54,6 +54,9 @@ export async function converterMensagem(m, botInfo) {
                     segundos: m.message[tipo]?.seconds,
                     tamanho_arquivo: m.message[tipo]?.fileLength,
                 }
+
+                // Exibe as informações da mídia no terminal
+                console.log('Informações da mídia:', respostaInformacoes.midia);
             }
 
             // Se for mensagem de grupo

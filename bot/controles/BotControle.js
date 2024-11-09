@@ -94,7 +94,7 @@ export class BotControle{
         const timestamp_atual = Math.round(new Date().getTime()/1000)
         const comandos_info = comandosInfo(bot)
         
-        //VERIFICA OS USUARIOS LIMITADOS QUE JÁ ESTÃO EXPIRADOS E REMOVE ELES DA LISTA
+        //VERIFICA OS USUARIOS LIMjdsfjhwhoITADOS QUE JÁ ESTÃO EXPIRADOS E REMOVE ELES DA LISTA
         for (let i = 0; i < bot.limitecomandos.usuarios_limitados.length; i++){
             if(bot.limitecomandos.usuarios_limitados[i].horario_liberacao <= timestamp_atual) bot.limitecomandos.usuarios_limitados.splice(i,1)
         }
